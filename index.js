@@ -54,6 +54,6 @@ function get(url, callback) {
     };
     request.send(null);
   } catch (error) {
-    console.log({ name: error.name, message: error.message, stack: error.stack })
-  }
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  };
 };
