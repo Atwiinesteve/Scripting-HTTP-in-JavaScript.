@@ -10,8 +10,8 @@ function postMessage(msg) {
   }
 };
 
-// Getting an HTTP response onreadystatechange
-function getTextFromServer(url, callback) {
+// Getting an HTTP response onreadystatechange Asynchronously.
+function getTextResponseFromServerAsync(url, callback) {
   var request = new XMLHttpRequest();
   request.open('GET', url);
   request.onreadystatechange = function() {
@@ -23,4 +23,14 @@ function getTextFromServer(url, callback) {
     };
   };
   request.send(null);
+};
+
+// Getting an HTTP response Synchronously.
+function getTextResponseFromServerSync(url, callback) {
+  var request = new XMLHttpRequest();
+  request.open('GET', url, false);
+  if(request.status !== 200) throw new Error(request.statusText);
+  var type = request.getResponseHeader('Content-Type');
+  if(!type.match(/^text/g)) throw new Error(`Expected Textual Type but got: ${type}`);
+  return request.responseText;
 };
