@@ -87,14 +87,14 @@ function postFormData(url, data, callback) {
     request.onreadystatechange = function() {
       if(request.readyState === 4 && request.status === 200) {
         callback(request)
-      }
+      };
     };
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     request.send(encodeFormData(data));
   } catch(error) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
-  }
-}
+  };
+};
 
 // Making a GET request with form-encoded data
 function getFormData(url, data, callback) {
@@ -104,12 +104,12 @@ function getFormData(url, data, callback) {
     request.onreadystatechange = function() {
       if(request.readyState === 4 && request.status === 200) {
         callback(request)
-      }
+      };
     };
     request.send(null);
   } catch(error) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
-  }
+  };
 };
 
 // JSON Encoding.
@@ -121,13 +121,13 @@ function postJSONEncodedData(url, data, callback) {
     request.onreadystatechange = function() {
       if(request.readyState === 4 && request.status === 200) {
         callback(request);
-      }
+      };
     };
     request.setRequestHeader('Content-Type', 'application/json');
     request.send(JSON.stringify(data));
   } catch(error) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
-  }
+  };
 };
 
 // File upload with an HTTP POST request.
@@ -146,7 +146,7 @@ function fileUpload() {
         request.open('POST', url);
         request.send(file)
       }, false);
-    }
+    };
   } catch(error) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
   };
@@ -161,7 +161,7 @@ function postMultiPartFormData(url, data, callback) {
     request.onreadystatechange = function () {
       if(request.readyState === 4 && request.status === 200) {
         callback(request.responseText);
-      }
+      };
     };
     var formData = new FormData();
     for(var name in data) {
@@ -173,5 +173,5 @@ function postMultiPartFormData(url, data, callback) {
     request.send(formData);
   } catch (error) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
-  }
-}
+  };
+};
