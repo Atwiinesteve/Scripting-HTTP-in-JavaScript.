@@ -100,7 +100,7 @@ function postFormData(url, data, callback) {
 function getFormData(url, data, callback) {
   try {
     var request = new XMLHttpRequest();
-    request.open('GET', url + '?' + encodedFormData(data));
+    request.open('GET', url + '?' + encodeFormData(data));
     request.onreadystatechange = function() {
       if(request.readyState === 4 && request.status === 200) {
         callback(request)
