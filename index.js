@@ -57,3 +57,57 @@ function get(url, callback) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
   };
 };
+
+
+// FORM ENCODED REQUESTS.
+// Encoding an object for an HTTP request.
+function encodeFormData(data) {
+  try {
+    if(!data) return '';
+    let pairs = [];
+    for(var name in data) {
+      if(!data.hasOwnProperty(name)) continue;
+      if(typeof data[name] === 'function') continue;
+      var value = data[name].toString();
+      name = encodeURIComponent(name.replace(' ', '+'));
+      value = encodeURIComponent(value.replace(' ', '+'));
+      pairs.push(name + ' = ' + value);
+    };
+  } catch(error) {
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  };
+  return pairs.join('&');
+};
+
+// Making an HTTP POST request with form-encoded data
+function postFormData(url, data, callback) {
+  try {
+    var request = new XMLHttpRequest();
+    request.open('POST', url);
+    request.onreadystatechange = function() {
+      if(request.readyState === 4 && request.status === 200) {
+        callback(request)
+      }
+    };
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(encodeFormData(data));
+  } catch(error) {
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  }
+}
+
+// Making a GET request with form-encoded data
+function getFormData(url, data, callback) {
+  try {
+    var request = new XMLHttpRequest();
+    request.open('GET', url + '?' + encodedFormData(data));
+    request.onreadystatechange = function() {
+      if(request.readyState === 4 && request.status === 200) {
+        callback(request)
+      }
+    };
+    request.send(null);
+  } catch(error) {
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  }
+}
