@@ -110,4 +110,68 @@ function getFormData(url, data, callback) {
   } catch(error) {
     console.log({ name: error.name, message: error.message, stack: error.stack });
   }
+};
+
+// JSON Encoding.
+// Making an HTTP POST request with a JSON-encoded body.
+function postJSONEncodedData(url, data, callback) {
+  try {
+    var request = new XMLHttpRequest();
+    request.open('POST', url);
+    request.onreadystatechange = function() {
+      if(request.readyState === 4 && request.status === 200) {
+        callback(request);
+      }
+    };
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send(JSON.stringify(data));
+  } catch(error) {
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  }
+};
+
+// File upload with an HTTP POST request.
+function fileUpload() {
+  try {
+    var inputElements = document.getElementsByTagName('input');
+    for( var i = 0; i < inputElements.length; i++) {
+      var input = inputElements[i];
+      if(input.type !== 'file') continue;
+      var url = input.getAttribute('data-uploadto');
+      if(!url) continue;
+      input.addEventListener('change', function() {
+        var file = this.files[0];
+        if(!file) return;
+        var request = new XMLHttpRequest();
+        request.open('POST', url);
+        request.send(file)
+      }, false);
+    }
+  } catch(error) {
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  };
+};
+
+// POSTing multipart/form-data request body.
+function postMultiPartFormData(url, data, callback) {
+  try {
+    if(typeof FormData === 'undefined') throw new Error('FormData not implemented...');
+    var request = new XMLHttpRequest();
+    request.open('POST', url);
+    request.onreadystatechange = function () {
+      if(request.readyState === 4 && request.status === 200) {
+        callback(request.responseText);
+      }
+    };
+    var formData = new FormData();
+    for(var name in data) {
+      if(!data.hasOwnProperty(name)) continue;
+      var value = data[name].toString();
+      if(typeof value === 'function') continue;
+      formData.append(name, value)
+    };
+    request.send(formData);
+  } catch (error) {
+    console.log({ name: error.name, message: error.message, stack: error.stack });
+  }
 }
